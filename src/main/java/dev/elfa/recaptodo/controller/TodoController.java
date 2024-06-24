@@ -1,10 +1,9 @@
 package dev.elfa.recaptodo.controller;
 
+import dev.elfa.recaptodo.dto.TodoDTO;
 import dev.elfa.recaptodo.model.Todo;
 import dev.elfa.recaptodo.service.TodoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,10 @@ public class TodoController {
     @GetMapping("/todo")
     public List<Todo> getTodos() {
         return this.todoService.getTodos();
+    }
+
+    @PostMapping("/todo")
+    public void setTodo(@RequestBody TodoDTO todo) {
+        this.todoService.setTodo(todo);
     }
 }
