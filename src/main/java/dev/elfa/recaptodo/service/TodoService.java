@@ -22,4 +22,9 @@ public class TodoService {
         Todo todo = new Todo(idService.generateUUID(), todoDTO.description(), todoDTO.status());
         this.todoRepository.save(todo);
     }
+
+    public void updateTodo(String id, TodoDTO todoDTO) {
+        Todo todo = new Todo(id, todoDTO.description(), todoDTO.status());
+        this.todoRepository.save(todo);
+    }
 }

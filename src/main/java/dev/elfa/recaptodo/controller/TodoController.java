@@ -22,7 +22,12 @@ public class TodoController {
     }
 
     @PostMapping("/todo")
-    public void setTodo(@RequestBody TodoDTO todo) {
-        this.todoService.setTodo(todo);
+    public void setTodo(@RequestBody TodoDTO todoDTO) {
+        this.todoService.setTodo(todoDTO);
+    }
+
+    @PutMapping("/todo/{id}")
+    public void updateTodo(@PathVariable String id, @RequestBody TodoDTO todoDTO) {
+        this.todoService.updateTodo(id, todoDTO);
     }
 }
