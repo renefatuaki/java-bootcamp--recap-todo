@@ -6,6 +6,7 @@ import dev.elfa.recaptodo.service.TodoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +20,11 @@ public class TodoController {
     @GetMapping("/todo")
     public List<Todo> getTodos() {
         return this.todoService.getTodos();
+    }
+
+    @GetMapping("/todo/{id}")
+    public Optional<Todo> getTodo(@PathVariable String id) {
+        return this.todoService.getTodo(id);
     }
 
     @PostMapping("/todo")
