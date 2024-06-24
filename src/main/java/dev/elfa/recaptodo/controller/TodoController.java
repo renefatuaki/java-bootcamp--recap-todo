@@ -2,6 +2,7 @@ package dev.elfa.recaptodo.controller;
 
 import dev.elfa.recaptodo.dto.TodoDTO;
 import dev.elfa.recaptodo.model.Todo;
+import dev.elfa.recaptodo.service.OpenAiService;
 import dev.elfa.recaptodo.service.TodoService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,11 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class TodoController {
     private final TodoService todoService;
+    private final OpenAiService openAiService;
 
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoService todoService, OpenAiService openAiService) {
         this.todoService = todoService;
+        this.openAiService = openAiService;
     }
 
     @GetMapping("/todo")
@@ -29,12 +32,14 @@ public class TodoController {
 
     @PostMapping("/todo")
     public void setTodo(@RequestBody TodoDTO todoDTO) {
-        this.todoService.setTodo(todoDTO);
+        TodoDTO todoDTOAutoCorrect = new TodoDTO(openAiService.getResponse(todoDTO.description()), todoDTO.status());
+        this.todoService.setTodo(todoDTOAutoCorrect);
     }
 
     @PutMapping("/todo/{id}")
     public void updateTodo(@PathVariable String id, @RequestBody TodoDTO todoDTO) {
-        this.todoService.updateTodo(id, todoDTO);
+        TodoDTO todoDTOAutoCorrect = new TodoDTO(openAiService.getResponse(todoDTO.description()), todoDTO.status());
+        this.todoService.updateTodo(id, todoDTOAutoCorrect);
     }
 
     @DeleteMapping("/todo/{id}")
